@@ -1,1 +1,0 @@
-# jeremykalar.github.io
