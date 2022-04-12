@@ -49,7 +49,7 @@
 		</tr>
 		<!-- placeholder table -->
 	</table>
-	<p> Note: <a href="other/placeholder.shtml"> link to placeholder</a></p>
+	<p> Note: <a href="other/placeholder.shtml"> links to placeholder</a></p>
 	<table style="background-color: orange;">
 		<tr>
 			<th style="color:white; font: caption;">
