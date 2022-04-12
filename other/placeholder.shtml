@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="information/css/all.css">
+	<link rel="stylesheet" type="text/css" href="../information/css/all.css">
 	<title> Jeremy's Stream Calendar </title>
 	<style type="text/css">
 
@@ -12,9 +12,21 @@
 </head>
 
 <body>
+
 	<!-- Start of header-->
 	<hr>
 	</hr>
+	<table>
+		<tr>
+			<th>
+				<p> To go back to the main page:
+			</th>
+			<td> <a href="../index.shtml"> Click here </a> </p>
+			</td>
+		</tr>
+		</table>
+	<img src="https://www.llamamagazine.com/uploads/5/0/8/2/5082490/llama-alpaca-comparison-smaller-file_orig.jpg"
+		alt=" test" width="500" height="600">
 	<!-- Start of the footer -->
 	<hr>
 	</hr>
