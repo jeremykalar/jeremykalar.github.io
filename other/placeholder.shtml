@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="../information/css/all.css">
+	<link rel="stylesheet" type="text/css" href="../ information/css/all.css">
 	<title> Jeremy's Stream Calendar </title>
 	<style type="text/css">
 
@@ -26,7 +26,7 @@
 		</tr>
 		</table>
 	<img src="https://www.llamamagazine.com/uploads/5/0/8/2/5082490/llama-alpaca-comparison-smaller-file_orig.jpg"
-		alt=" test" width="500" height="600">
+		alt=" test" width="1000" height="1100">
 	<!-- Start of the footer -->
 	<hr>
 	</hr>
