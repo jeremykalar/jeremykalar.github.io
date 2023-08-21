@@ -34,10 +34,13 @@ a:active {
 th {
   border: 1px solid rgb(190, 190, 190);
   padding: 10px;
+  background-color: white;
+
 }
 
 td {
   text-align: center;
+  background-color: seashell;
 }
 
 tr:nth-child(even) {
@@ -47,6 +50,7 @@ tr:nth-child(even) {
 th[scope="col"] {
   background-color: #696969;
   color: #fff;
+  width:70%
 }
 
 th[scope="row"] {
