@@ -15,7 +15,15 @@ span {
   background-color: #fefbd8;
 }
 
-a:link,
+a:link  {
+  background-color: #9FE2BF;
+  color: white;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
 a:visited {
   background-color: #9FE2BF;
   color: white;
