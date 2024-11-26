@@ -1,6 +1,6 @@
 /*-------------page styles-----------*/
 body {
-  background-color: white;
+  background-color: grey;
 }
 
 h1 {
@@ -77,3 +77,10 @@ table {
   font-family: sans-serif;
   font-size: .8rem;
 }
+
+body { background-color: grey;
+color: black;
+background-image: url('');
+ background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;}
