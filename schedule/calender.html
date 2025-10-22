@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twitch Stream Schedule</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #countdown {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      padding: 10px;
+      background: #222;
+      display: inline-block;
+      border-radius: 8px;
+    }
+
+    .schedule {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+
+    .day {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .day h2 {
+      margin: 0 0 10px 0;
+      font-size: 1.2em;
+      border-bottom: 1px solid #444;
+      width: 100%;
+      text-align: center;
+      padding-bottom: 5px;
+    }
+
+    .slot {
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 8px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .time { font-weight: bold; color: #fff; }
+    .game { color: #ccc; }
+    .note { font-size: 0.9em; color: #aaa; margin-top: 4px; font-style: italic; }
+    .today { border: 2px solid #fff; box-shadow: 0 0 10px #fff3; }
+
+    @media (max-width: 800px) { .schedule { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .schedule { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Weekly Stream Schedule</h1>
+  <div id="countdown">Loading next stream...</div>
+  <div class="schedule" id="schedule"></div>
+
+  <script>
+    async function loadSchedule() {
+      try {
+        const res = await fetch('week.json');
+        if (!res.ok) throw new Error('Failed to load week.json');
+        const scheduleData = await res.json();
+        renderSchedule(scheduleData);
+        startCountdown(scheduleData);
+      } catch (err) {
+        console.error('Error loading schedule:', err);
+        document.getElementById('schedule').innerHTML = '<p>Failed to load schedule.</p>';
+      }
+    }
+
+    function renderSchedule(data) {
+      const scheduleContainer = document.getElementById("schedule");
+      const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const today = daysOfWeek[new Date().getDay()];
+
+      Object.entries(data).forEach(([day, slots]) => {
+        const dayDiv = document.createElement("div");
+        dayDiv.className = "day";
+        if (day === today) dayDiv.classList.add("today");
+        dayDiv.innerHTML = `<h2>${day}</h2>`;
+        
+        slots.forEach(slot => {
+          const slotDiv = document.createElement("div");
+          slotDiv.className = "slot";
+          slotDiv.innerHTML = `
+            <div class="time">${slot.time}</div>
+            <div class="game">${slot.game}</div>
+            ${slot.note ? `<div class="note">${slot.note}</div>` : ""}
+          `;
+          dayDiv.appendChild(slotDiv);
+        });
+
+        scheduleContainer.appendChild(dayDiv);
+      });
+    }
+
+    function parseTimeString(timeStr, dayOffset = 0) {
+      // Convert "6:00 PM" to a Date object
+      const now = new Date();
+      const [time, modifier] = timeStr.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+      if (modifier.toLowerCase() === 'pm' && hours < 12) hours += 12;
+      if (modifier.toLowerCase() === 'am' && hours === 12) hours = 0;
+
+      const date = new Date(now);
+      date.setHours(hours, minutes, 0, 0);
+      date.setDate(now.getDate() + dayOffset);
+      return date;
+    }
+
+    function startCountdown(data) {
+      const countdownEl = document.getElementById('countdown');
+      const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      function getNextStream() {
+        const now = new Date();
+        for (let i = 0; i < 7; i++) {
+          const dayIndex = (now.getDay() + i) % 7;
+          const dayName = daysOfWeek[dayIndex];
+          const slots = data[dayName];
+          if (!slots) continue;
+
+          for (const slot of slots) {
+            if (slot.time.toLowerCase() === 'day off') continue;
+            const slotTime = parseTimeString(slot.time, i);
+            if (slotTime > now) return { time: slotTime, game: slot.game, day: dayName };
+          }
+        }
+        return null;
+      }
+
+      function updateCountdown() {
+        const next = getNextStream();
+        if (!next) {
+          countdownEl.textContent = "No upcoming streams scheduled.";
+          return;
+        }
+        const diff = next.time - new Date();
+        const hours = Math.floor(diff / 1000 / 3600);
+        const minutes = Math.floor((diff / 1000 % 3600) / 60);
+        const seconds = Math.floor(diff / 1000 % 60);
+        countdownEl.textContent = `Next Stream: ${next.game} (${next.day}) in ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+
+    loadSchedule();
+  </script>
+</body>
+</html>

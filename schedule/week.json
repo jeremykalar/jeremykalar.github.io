@@ -1,0 +1,24 @@
+
+{ 
+  "Monday": [
+
+  ],
+  "Tuesday": [
+
+],
+  "Wednesday": [
+
+  ],
+  "Thursday": [
+    { "time": "11:00 AM", "game": "Destiny 2", "note": "Festival of the lost" }
+  ],
+  "Friday": [
+
+  ],
+  "Saturday": [
+    { "time": "11:00 AM", "game": "Genshin Impact", "note": "" }
+  ],
+  "Sunday": [
+    { "time": "Day Off", "game": "—", "note": "No stream today!" }
+  ]
+}
