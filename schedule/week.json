@@ -7,10 +7,10 @@
 
 ],
   "Wednesday": [
-    
+   { "time": "11:00 AM", "game": "Destiny 2", "note": "Festival of the lost" }
   ],
   "Thursday": [
-    { "time": "11:00 AM", "game": "Destiny 2", "note": "Festival of the lost" }
+    
   ],
   "Friday": [
 
