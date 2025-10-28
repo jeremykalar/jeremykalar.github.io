@@ -7,7 +7,7 @@
 
 ],
   "Wednesday": [
-
+    
   ],
   "Thursday": [
     { "time": "11:00 AM", "game": "Destiny 2", "note": "Festival of the lost" }
@@ -16,9 +16,10 @@
 
   ],
   "Saturday": [
-    { "time": "11:00 AM", "game": "Genshin Impact", "note": "" }
+    { "time": "Day Off", "game": "—", "note": "No stream today!" }
+    
   ],
   "Sunday": [
-    { "time": "Day Off", "game": "—", "note": "No stream today!" }
+    { "time": "10:00 AM", "game": "Genshin Impact", "note": "" }
   ]
 }

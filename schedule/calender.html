@@ -14,9 +14,7 @@
       text-align: center;
     }
 
-    h1 {
-      margin-bottom: 10px;
-    }
+    h1 { margin-bottom: 10px; }
 
     #countdown {
       font-size: 1.2em;
@@ -116,12 +114,11 @@
     }
 
     function parseTimeString(timeStr, dayOffset = 0) {
-      // Convert "6:00 PM" to a Date object
       const now = new Date();
       const [time, modifier] = timeStr.split(' ');
       let [hours, minutes] = time.split(':').map(Number);
-      if (modifier.toLowerCase() === 'pm' && hours < 12) hours += 12;
-      if (modifier.toLowerCase() === 'am' && hours === 12) hours = 0;
+      if (modifier?.toLowerCase() === 'pm' && hours < 12) hours += 12;
+      if (modifier?.toLowerCase() === 'am' && hours === 12) hours = 0;
 
       const date = new Date(now);
       date.setHours(hours, minutes, 0, 0);
@@ -157,10 +154,11 @@
           return;
         }
         const diff = next.time - new Date();
-        const hours = Math.floor(diff / 1000 / 3600);
-        const minutes = Math.floor((diff / 1000 % 3600) / 60);
-        const seconds = Math.floor(diff / 1000 % 60);
-        countdownEl.textContent = `Next Stream: ${next.game} (${next.day}) in ${hours}h ${minutes}m ${seconds}s`;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        countdownEl.textContent = `Next Stream: ${next.game} (${next.day}) in ${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
 
       updateCountdown();
