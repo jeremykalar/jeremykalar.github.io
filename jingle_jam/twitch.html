@@ -1,99 +1,171 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<!-- Start of header-->
-	<link rel="stylesheet" type="text/css" href="../information/css/all.css">
-	<title> Jeremy's Stream Calendar </title>
-	<style type="text/css">
+  <meta charset="UTF-8">
+  <title>Jeremy's Stream Calendar</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 1s; /* smooth color change */
+    }
 
+    table {
+      width: 90%;
+      margin: 10px auto;
+      border-collapse: collapse;
+    }
 
+    th {
+      border: 1px solid #555;
+      padding: 10px;
+      vertical-align: top;
+    }
 
-	</style>
+    #countdown {
+      font-size: 20px;
+      color: orange;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+    }
+  </style>
 </head>
-<!-- Start of body-->
-
 <body>
 
-				<p> Note: All times listed are EST</p>
-		</tr>
-		<tr>
-			<th  style="background-color: orange; color:white;">
-				<p><b> This will be updated each Sunday </b></p>
-				<p><b> Note: The day's game can change - each stream will start at around the time for that day </b></p>
-		</tr>
-	</table>
+  <p>Note: All times listed are EST</p>
+  <p><b>This will be updated each Sunday</b></p>
+  <p><b>Note: The day's game can change — each stream will start at around the time for that day</b></p>
 
+  <!-- Countdown above table -->
+  <div id="countdown">Loading next stream...</div>
 
-	<table>
-		<tr>
-			<th>
-				<p> Monday</p>
-				<p>Time: 1PM</p>
-			</th>
-			<th>
-				<p> Tuesday</p>
-				<p>Time: </p>
-			</th>
-			<th>
-				<p> Wednesday</p>
-				<p>Time:</p>
-			</th>
-			<th>
-				<p> Thrusday</p>
-				<p>Time: 7PM</p>
-			</th>
-			<th>
-				<p> Friday</p>
-				<p>Time: </p>
-			</th>
-			<th>
-				<p> Saturday</p>
-				<p>Time: 10AM</p>
-			</th>
-			<th>
-				<p> Sunday</p>
-				<p>Time: 10:30AM </p>
-			</th>
-		</tr>
-		<tr>
-			<th> Destiny 2</th> <!--  mon -->
-			<th> Break/Day off </th> <!--  tues -->
-			<th> Break/Day off </th> <!--  wed -->
-			<th> Overwatch </th> <!--  Thrusday -->
-			<th> Break/Day off </th> <!-- fri  -->
-			<th> Fortune Cookie<h5>(random games)</h5></th> <!-- sat. -->
-			<th> Break/Day off  </th> <!--  sun. -->
+  <!-- Schedule table -->
+  <table id="schedule-table"></table>
 
+  <!-- Footer -->
+  <div class="footer">
+    <p class="time">
+      Time:
+      <iframe src="https://freesecure.timeanddate.com/clock/i75xqh21/n4747/tt0/td1/th2/ta1/tb1"
+              frameborder="0" width="360" height="18"></iframe>
+    </p>
+    <p>Last Edited: 11/27/2024</p>
+  </div>
 
-		</tr>
-	</table>
-	<hr>
-	<!-- Start of the footer -->
-	</hr>
-	<p class="footer">
-		<p class="time"> Time:
-			<!-- code to add clock via https://www.timeanddate.com/clocks/free.html-->
-			<iframe src="https://freesecure.timeanddate.com/clock/i75xqh21/n4747/tt0/td1/th2/ta1/tb1" frameborder="0"
-				width="360" height="18" color="blue"></iframe>
-		</p>
-		<p> Last Edited: 11/27/2024</p>
-		</p>
-	<script>
-/*       // Array of Christmas-themed colors
-        const christmasColors = ["#FF0000", "#008000", "yellow"]; // Red, Green, and Yellow, still being worked on
+  <script>
+    // --- Christmas theme ---
+    const christmasColors = ["#FF0000", "#008000", "yellow"]; // Red, Green, Yellow
+    function changeBackgroundColor() {
+      const randomColor = christmasColors[Math.floor(Math.random() * christmasColors.length)];
+      document.body.style.backgroundColor = randomColor;
+    }
+    // Optional: Uncomment to activate theme
+    // changeBackgroundColor();
+    // setInterval(changeBackgroundColor, 10000);
 
-        // Function to change the background color randomly
-        function changeBackgroundColor() {
-            const randomColor = christmasColors[Math.floor(Math.random() * christmasColors.length)];
-            document.body.style.backgroundColor = randomColor;
+    // --- Load schedule ---
+    async function loadSchedule() {
+      const res = await fetch('week.json');
+      const schedule = await res.json();
+      const days = Object.keys(schedule);
+      const table = document.getElementById('schedule-table');
+
+      // Find next stream for highlighting & countdown
+      const nextStream = getNextStream(schedule);
+
+      // Header row
+      const headerRow = document.createElement('tr');
+      days.forEach(day => {
+        const cell = document.createElement('th');
+        const entry = schedule[day][0];
+        cell.innerHTML = `<p>${day}</p><p>Time: ${entry?.time || ''}</p>`;
+        if (nextStream && day === nextStream.day) {
+          cell.style.backgroundColor = 'orange';
+          cell.style.color = 'black';
         }
+        headerRow.appendChild(cell);
+      });
+      table.appendChild(headerRow);
 
-        // Change color immediately and then every 10 seconds
-        changeBackgroundColor();
-        setInterval(changeBackgroundColor, 10000); */
-		
-    </script>
+      // Game row
+      const gameRow = document.createElement('tr');
+      days.forEach(day => {
+        const cell = document.createElement('th');
+        const entry = schedule[day][0];
+        if (entry) {
+          cell.innerHTML = `<p>${entry.game}</p><h5>${entry.note || ''}</h5>`;
+        } else {
+          cell.innerHTML = '<p>Break/Day off</p>';
+        }
+        if (nextStream && day === nextStream.day) {
+          cell.style.backgroundColor = 'orange';
+          cell.style.color = 'black';
+        }
+        gameRow.appendChild(cell);
+      });
+      table.appendChild(gameRow);
+
+      // Start countdown
+      startCountdown(nextStream);
+    }
+
+    function getNextStream(schedule) {
+      const now = new Date();
+      const daysOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      for (let i = 0; i < 7; i++) {
+        const check = new Date(now);
+        check.setDate(now.getDate() + i);
+        const dayName = daysOfWeek[check.getDay()];
+        const entry = schedule[dayName]?.[0];
+        if (entry && entry.time && entry.time.toLowerCase() !== "day off") {
+          const [timeStr, modifier] = entry.time.split(' ');
+          let [hours, minutes] = timeStr.split(':').map(Number);
+          if (!minutes) minutes = 0;
+          if (modifier.toLowerCase() === "pm" && hours < 12) hours += 12;
+          if (modifier.toLowerCase() === "am" && hours === 12) hours = 0;
+          check.setHours(hours, minutes, 0, 0);
+          if (check > now) return {time: check, game: entry.game, day: dayName};
+        }
+      }
+      return null;
+    }
+
+    function startCountdown(nextStream) {
+      const countdownEl = document.getElementById('countdown');
+      if (!nextStream) {
+        countdownEl.textContent = "No upcoming streams this week.";
+        return;
+      }
+
+      function update() {
+        const diff = nextStream.time - new Date();
+        if (diff <= 0) {
+          countdownEl.textContent = `${nextStream.game} (${nextStream.day}) is live now!`;
+          clearInterval(timer);
+          return;
+        }
+        const days = Math.floor(diff / (1000*60*60*24));
+        const hours = Math.floor((diff / (1000*60*60)) % 24);
+        const minutes = Math.floor((diff / (1000*60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        countdownEl.textContent = `Next Stream: ${nextStream.game} (${nextStream.day}) in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      update();
+      const timer = setInterval(update, 1000);
+    }
+
+    loadSchedule();
+  </script>
+
 </body>
-
 </html>
