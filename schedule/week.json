@@ -1,25 +1,28 @@
 
 { 
   "Monday": [
+  
 
   ],
   "Tuesday": [
-
+    { "time": "1:00 PM", "game": "Destiny 2", "note": "" }
 ],
   "Wednesday": [
-   { "time": "11:00 AM", "game": "Destiny 2", "note": "CANCELED for 10/29" }
+
   ],
   "Thursday": [
-    
+    { "time": "Day Off", "game": "—", "note": "No stream today!" }
+
   ],
   "Friday": [
 
   ],
   "Saturday": [
-    { "time": "Day Off", "game": "—", "note": "No stream today!" }
+    { "time": "11:00AM", "game": "Overwatch 2", "note": "" }
     
   ],
   "Sunday": [
-    { "time": "10:00 AM", "game": "Genshin Impact", "note": "" }
+    { "time": "Day Off", "game": "—", "note": "No stream today!" }
+
   ]
 }

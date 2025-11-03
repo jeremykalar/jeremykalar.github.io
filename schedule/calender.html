@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Twitch Stream Schedule</title>
+  <title>Weekly Stream Schedule</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -15,6 +15,24 @@
     }
 
     h1 { margin-bottom: 10px; }
+
+    #live {
+      display: none;
+      background: #b30000;
+      color: #fff;
+      padding: 12px;
+      font-weight: bold;
+      border-radius: 8px;
+      margin: 15px auto;
+      width: fit-content;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 5px #f00; }
+      50% { box-shadow: 0 0 20px #f00; }
+      100% { box-shadow: 0 0 5px #f00; }
+    }
 
     #countdown {
       font-size: 1.2em;
@@ -69,7 +87,8 @@
   </style>
 </head>
 <body>
-  <h1>Weekly Stream Schedule</h1>
+  <h1>Twitch Weekly Stream Schedule</h1>
+  <div id="live"></div>
   <div id="countdown">Loading next stream...</div>
   <div class="schedule" id="schedule"></div>
 
@@ -114,20 +133,23 @@
     }
 
     function parseTimeString(timeStr, dayOffset = 0) {
+      // Normalize to insert a space before AM/PM if missing
+      timeStr = timeStr.replace(/(am|pm)$/i, ' $1');
       const now = new Date();
-      const [time, modifier] = timeStr.split(' ');
+      const [time, modifier] = timeStr.trim().split(' ');
       let [hours, minutes] = time.split(':').map(Number);
       if (modifier?.toLowerCase() === 'pm' && hours < 12) hours += 12;
       if (modifier?.toLowerCase() === 'am' && hours === 12) hours = 0;
 
       const date = new Date(now);
-      date.setHours(hours, minutes, 0, 0);
+      date.setHours(hours, minutes || 0, 0, 0);
       date.setDate(now.getDate() + dayOffset);
       return date;
     }
 
     function startCountdown(data) {
       const countdownEl = document.getElementById('countdown');
+      const liveEl = document.getElementById('live');
       const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
       function getNextStream() {
@@ -139,7 +161,7 @@
           if (!slots) continue;
 
           for (const slot of slots) {
-            if (slot.time.toLowerCase() === 'day off') continue;
+            if (slot.time.toLowerCase().includes('day off')) continue;
             const slotTime = parseTimeString(slot.time, i);
             if (slotTime > now) return { time: slotTime, game: slot.game, day: dayName };
           }
@@ -147,12 +169,39 @@
         return null;
       }
 
+      function getCurrentStream() {
+        const now = new Date();
+        const todayName = daysOfWeek[now.getDay()];
+        const slots = data[todayName];
+        if (!slots) return null;
+
+        for (const slot of slots) {
+          if (slot.time.toLowerCase().includes('day off')) continue;
+          const slotTime = parseTimeString(slot.time, 0);
+          const endTime = new Date(slotTime.getTime() + 3 * 60 * 60 * 1000); // assume 3h stream
+          if (now >= slotTime && now <= endTime) {
+            return { game: slot.game, day: todayName };
+          }
+        }
+        return null;
+      }
+
       function updateCountdown() {
+        const current = getCurrentStream();
         const next = getNextStream();
+
+        if (current) {
+          liveEl.style.display = "block";
+          liveEl.innerHTML = `🔴 LIVE NOW: ${current.game}<br>Watch here → <a href="https://twitch.tv/jeremykalar" target="_blank" style="color:#fff;">twitch.tv/test</a>`;
+        } else {
+          liveEl.style.display = "none";
+        }
+
         if (!next) {
           countdownEl.textContent = "No upcoming streams scheduled.";
           return;
         }
+
         const diff = next.time - new Date();
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
