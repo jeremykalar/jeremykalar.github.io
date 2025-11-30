@@ -1,7 +1,7 @@
 
 { 
   "Monday": [
-   { "time": "10:00 AM", "game": "Raft", "note": "" }
+   { "time": "2:00 pm", "game": "Modded Minecraft", "note": "mods and server tba" }
 
   ],
   "Tuesday": [
@@ -20,10 +20,10 @@
 
   ],
   "Saturday": [
-    { "time": "10:00 AM", "game": "Overwatch 2", "note": "new hero testing" }
+    { "time": "10:00 AM", "game": "Modded Minecraft", "note": "server tba" }
     
   ],
   "Sunday": [
-    { "time": "10:00 AM", "game": "Genshin Impact", "note": "" }
+    { "time": "10:00 AM", "game": "Overwatch 2", "note": "" }
   ]
 }
