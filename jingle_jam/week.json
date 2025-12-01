@@ -9,11 +9,11 @@
 
 ],
   "Wednesday": [
-   { "time": "1:00 PM", "game": "Modded Minecraft", "note": "server tba" }
+   { "time": "Day Off", "game": "—", "note": "No stream today!" }
   ],
   "Thursday": [
-   { "time": "Day Off", "game": "—", "note": "No stream today!" }
-
+   
+   { "time": "2:00 PM", "game": "Modded Minecraft", "note": "server tba" }
   ],
   "Friday": [
   { "time": "1:00 PM", "game": "Phasmophobia", "note": "" }
