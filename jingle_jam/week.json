@@ -20,8 +20,7 @@
 
   ],
   "Saturday": [
-  { "time": "Day Off", "game": "—", "note": "No stream today!" }
-    
+  { "time": "10:00 AM", "game": "Phasmophobia", "note": "" }    
   ],
   "Sunday": [
     { "time": "10:00 AM", "game": "Overwatch 2", "note": "" }
