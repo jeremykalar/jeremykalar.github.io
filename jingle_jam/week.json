@@ -1,26 +1,23 @@
 
 { 
   "Monday": [
-   { "time": "2:00 pm", "game": "Modded Minecraft", "note": "mods and server tba" }
-
+ { "time": "Day Off", "game": "—", "note": "No stream today!" }
   ],
   "Tuesday": [
-   { "time": "1:00 PM", "game": "Destiny 2", "note": "New season release" }
-
+ { "time": "Day Off", "game": "—", "note": "No stream today!" }
 ],
   "Wednesday": [
-   { "time": "Day Off", "game": "—", "note": "No stream today!" }
+   { "time": "2:00 PM", "game": "Overwatch", "note": "Comp" }
   ],
   "Thursday": [
-   
-   { "time": "2:00 PM", "game": "Modded Minecraft", "note": "server tba" }
+   { "time": "10:00 AM", "game": "Modded Minecraft", "note": "pixelmon, server tba" }
   ],
   "Friday": [
-  { "time": "1:00 PM", "game": "Phasmophobia", "note": "" }
+   { "time": "Day Off", "game": "—", "note": "No stream today!" }
 
   ],
   "Saturday": [
-  { "time": "10:00 AM", "game": "Phasmophobia", "note": "" }    
+  { "time": "12:00 PM", "game": "Destiny 2", "note": "Dugeon Race" }    
   ],
   "Sunday": [
   { "time": "Day Off", "game": "—", "note": "No stream today!" }
