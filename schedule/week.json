@@ -1,13 +1,15 @@
 
 { 
   "Monday": [
-  
+      { "time": "Day Off", "game": "—", "note": "No stream today!" }
+
 
   ],
   "Tuesday": [
     { "time": "1:00 PM", "game": "Destiny 2", "note": "" }
 ],
   "Wednesday": [
+    { "time": "Day Off", "game": "—", "note": "No stream today!" }
 
   ],
   "Thursday": [
@@ -15,6 +17,7 @@
 
   ],
   "Friday": [
+    { "time": "Day Off", "game": "—", "note": "No stream today!" }
 
   ],
   "Saturday": [
